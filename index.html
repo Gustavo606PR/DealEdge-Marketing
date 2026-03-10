@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DealEdge — Train Your Negotiation. Close More Deals.</title>
+<meta name="description" content="AI-powered real estate negotiation trainer. Practice with realistic clients, get scored, and close more deals. Free to start.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #00c8d4;
+    --green: #00e090;
+    --mid: #00d4b0;
+    --bg: #030e0c;
+    --card: rgba(4,26,20,0.95);
+    --card2: rgba(0,200,212,0.06);
+    --text: #e8f8f4;
+    --muted: #7ab8ac;
+    --border: rgba(0,200,212,0.15);
+    --glow: 0 0 40px rgba(0,200,212,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── AMBIENT GLOW ── */
+  .ambient {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .ambient-1 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,200,212,0.12) 0%, transparent 70%);
+    top: -200px; left: -150px;
+  }
+  .ambient-2 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,224,144,0.08) 0%, transparent 70%);
+    bottom: 200px; right: -150px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background: rgba(3,14,12,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-logo span {
+    background: linear-gradient(135deg, var(--teal), var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .nav-logo-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--teal), var(--green));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: linear-gradient(135deg, var(--teal), var(--green));
+    color: var(--bg) !important;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 600 !important;
+    font-size: 0.88rem !important;
+    transition: opacity 0.2s, transform 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* ── LANG TOGGLE ── */
+  .lang-toggle {
+    display: flex;
+    gap: 4px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 3px;
+    margin-left: 8px;
+  }
+  .lang-btn {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .lang-btn.active {
+    background: linear-gradient(135deg, var(--teal), var(--green));
+    color: var(--bg);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,200,212,0.1);
+    border: 1px solid rgba(0,200,212,0.25);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--teal);
+    margin-bottom: 32px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--teal);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    line-height: 1.05;
+    max-width: 820px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted);
+    max-width: 560px;
+    margin-bottom: 44px;
+    font-weight: 300;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--teal), var(--green));
+    color: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 15px 32px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 24px rgba(0,200,212,0.3);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,200,212,0.4);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 15px 32px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--teal);
+    background: rgba(0,200,212,0.05);
+  }
+
+  /* ── VIDEO ── */
+  .video-section {
+    position: relative;
+    z-index: 1;
+    padding: 0 24px 100px;
+    display: flex;
+    justify-content: center;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 860px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--glow), 0 40px 80px rgba(0,0,0,0.5);
+    background: var(--card);
+    aspect-ratio: 16/9;
+  }
+
+  .video-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(0,200,212,0.08) 0%, rgba(0,224,144,0.05) 100%);
+    gap: 20px;
+    position: absolute;
+    inset: 0;
+  }
+
+  .play-btn {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, var(--teal), var(--green));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 0 16px rgba(0,200,212,0.1), 0 0 0 32px rgba(0,200,212,0.05);
+    transition: transform 0.2s;
+  }
+  .play-btn:hover { transform: scale(1.08); }
+  .play-btn svg { margin-left: 4px; }
+
+  .video-label {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    color: var(--muted);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .video-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--teal), var(--green));
+    opacity: 0.5;
+  }
+
+  /* ── SECTION COMMON ── */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 520px;
+    font-weight: 300;
+  }
+
+  /* ── BENEFITS ── */
+  .benefits {
+    padding: 100px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .benefits-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .benefit-card {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 32px;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .benefit-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--teal), var(--green));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+
+  .benefit-card:hover {
+    border-color: rgba(0,200,212,0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(0,200,212,0.08);
+  }
+
+  .benefit-card:hover::before { transform: scaleX(1); }
+
+  .benefit-icon {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, rgba(0,200,212,0.15), rgba(0,224,144,0.1));
+    border: 1px solid rgba(0,200,212,0.2);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .benefit-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+
+  .benefit-desc {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ── PRICING ── */
+  .pricing {
+    padding: 100px 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .pricing-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .pricing-card {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px 36px;
+    position: relative;
+  }
+
+  .pricing-card.featured {
+    border-color: rgba(0,200,212,0.4);
+    background: linear-gradient(145deg, rgba(0,200,212,0.08) 0%, rgba(0,224,144,0.04) 100%);
+    box-shadow: var(--glow);
+  }
+
+  .pricing-badge {
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--teal), var(--green));
+    color: var(--bg);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 16px;
+    border-radius: 100px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .pricing-tier {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .pricing-price {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 3rem;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .pricing-price span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .pricing-desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 32px;
+    font-weight: 300;
+  }
+
+  .pricing-features {
+    list-style: none;
+    margin-bottom: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pricing-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.92rem;
+    color: var(--text);
+    font-weight: 300;
+  }
+
+  .pricing-features li .check {
+    color: var(--teal);
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .pricing-features li .cross {
+    color: rgba(255,255,255,0.2);
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .pricing-features li.dim { color: var(--muted); opacity: 0.5; }
+
+  .btn-pricing-free {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-pricing-free:hover {
+    border-color: var(--teal);
+    background: rgba(0,200,212,0.05);
+  }
+
+  .btn-pricing-pro {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, var(--teal), var(--green));
+    color: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 4px 20px rgba(0,200,212,0.3);
+  }
+  .btn-pricing-pro:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* ── SOCIAL PROOF ── */
+  .social {
+    padding: 100px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .social-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .testimonial-card {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+  }
+
+  .testimonial-card.placeholder {
+    opacity: 0.45;
+    border-style: dashed;
+  }
+
+  .stars {
+    color: var(--teal);
+    font-size: 0.9rem;
+    margin-bottom: 14px;
+    letter-spacing: 2px;
+  }
+
+  .testimonial-text {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .author-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--green));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--bg);
+    font-family: 'Syne', sans-serif;
+  }
+
+  .author-info .name {
+    font-weight: 600;
+    font-size: 0.88rem;
+  }
+
+  .author-info .role {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .testimonial-coming {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    opacity: 0.6;
+    white-space: nowrap;
+  }
+
+  /* ── FINAL CTA ── */
+  .final-cta {
+    padding: 120px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px; height: 400px;
+    background: radial-gradient(ellipse, rgba(0,200,212,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .final-cta-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .final-cta h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .final-cta p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 40px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: gap;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--muted);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--text); }
+
+  .footer-copy {
+    font-size: 0.82rem;
+    color: rgba(122,184,172,0.5);
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── STAT BAR ── */
+  .stat-bar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+    padding: 40px 24px 80px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 2.2rem;
+    background: linear-gradient(135deg, var(--teal), var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+
+    .hero { padding: 100px 20px 60px; }
+    .hero h1 { font-size: 2.2rem; }
+
+    .benefits-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .testimonial-grid { grid-template-columns: 1fr; }
+
+    .stat-bar { gap: 36px; }
+
+    footer {
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+      padding: 32px 24px;
+    }
+    .footer-links { justify-content: center; }
+  }
+
+  /* ── LANGUAGE SWITCHING ── */
+  .lang-es { display: none; }
+  body.es .lang-en { display: none; }
+  body.es .lang-es { display: block; }
+  body.es .lang-es.inline { display: inline; }
+  body.es .lang-en.inline { display: none; }
+  .lang-es.inline { display: none; }
+</style>
+</head>
+<body>
+
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg width="36" height="36" viewBox="0 0 52 52" fill="none">
+      <defs>
+        <linearGradient id="lhf_nav" x1="26" y1="6" x2="26" y2="48" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="rgba(0,212,176,0.22)"/>
+          <stop offset="100%" stop-color="rgba(0,200,160,0.03)"/>
+        </linearGradient>
+        <filter id="lag_nav"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <path d="M4 28 L26 7 L48 28 L42 28 L42 46 L10 46 L10 28 Z" fill="url(#lhf_nav)" stroke="#00d4b0" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="20" y="32" width="12" height="14" rx="2" fill="rgba(0,212,176,0.08)" stroke="#00c8d4" stroke-width="2"/>
+      <path d="M38 17 L46 9 M46 9 L46 18 M46 9 L37 9" stroke="#00e090" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#lag_nav)"/>
+    </svg>
+    Deal<span>Edge</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#benefits" class="lang-en">Benefits</a><a href="#benefits" class="lang-es">Beneficios</a></li>
+    <li><a href="#pricing" class="lang-en">Pricing</a><a href="#pricing" class="lang-es">Precios</a></li>
+    <li><a href="https://dealedgeapp.com" class="nav-cta lang-en">Start Free →</a><a href="https://dealedgeapp.com" class="nav-cta lang-es">Comenzar Gratis →</a></li>
+  </ul>
+  <div class="lang-toggle" style="display:flex;">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge lang-en">AI-Powered · Real Estate · Negotiation Trainer</div>
+  <div class="hero-badge lang-es">IA · Bienes Raíces · Entrenador de Negociación</div>
+
+  <h1 class="lang-en">Your Next Deal<br>Starts With<br><em>This Conversation.</em></h1>
+  <h1 class="lang-es">Tu Próximo Negocio<br>Empieza Con<br><em>Esta Conversación.</em></h1>
+
+  <p class="hero-sub lang-en">Practice against AI clients that fight back. Walk into every negotiation knowing exactly what to say.</p>
+  <p class="hero-sub lang-es">Practica contra clientes de IA que resisten. Entra a cada negociación sabiendo exactamente qué decir.</p>
+
+  <div class="hero-ctas">
+    <a href="https://dealedgeapp.com" class="btn-primary lang-en">Start Free — No Card Needed →</a>
+    <a href="https://dealedgeapp.com" class="btn-primary lang-es">Comenzar Gratis — Sin Tarjeta →</a>
+    <a href="#pricing" class="btn-secondary lang-en">See Pricing</a>
+    <a href="#pricing" class="btn-secondary lang-es">Ver Precios</a>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<div class="video-section">
+  <div class="video-wrapper">
+    <div class="video-placeholder">
+      <div class="play-btn" onclick="alert('Demo video coming soon!')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+      <div class="video-label lang-en">Watch 30-Second Demo</div>
+      <div class="video-label lang-es">Ver Demo de 30 Segundos</div>
+    </div>
+    <div class="video-bar"></div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stat-bar">
+  <div class="stat">
+    <div class="stat-num">6</div>
+    <div class="stat-label lang-en">Negotiation Scenarios</div>
+    <div class="stat-label lang-es">Escenarios de Negociación</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">3</div>
+    <div class="stat-label lang-en">Difficulty Levels</div>
+    <div class="stat-label lang-es">Niveles de Dificultad</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">AI</div>
+    <div class="stat-label lang-en">Voice-Powered Clients</div>
+    <div class="stat-label lang-es">Clientes con Voz de IA</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">EN/ES</div>
+    <div class="stat-label lang-en">Bilingual Training</div>
+    <div class="stat-label lang-es">Entrenamiento Bilingüe</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- BENEFITS -->
+<section class="benefits" id="benefits">
+  <div class="benefits-header">
+    <div class="section-label lang-en">Why DealEdge</div>
+    <div class="section-label lang-es">Por qué DealEdge</div>
+    <h2 class="section-title lang-en">Built for agents who<br>want to win more.</h2>
+    <h2 class="section-title lang-es">Creado para agentes que<br>quieren cerrar más.</h2>
+  </div>
+
+  <div class="benefits-grid">
+    <!-- Benefit 1 -->
+    <div class="benefit-card">
+      <div class="benefit-icon">🎯</div>
+      <div class="benefit-title lang-en">Real Pressure. Safe Environment.</div>
+      <div class="benefit-title lang-es">Presión Real. Ambiente Seguro.</div>
+      <p class="benefit-desc lang-en">AI clients push back hard — lowballs, objections, stalls. Practice handling difficult conversations without risking a real deal. Build confidence through repetition.</p>
+      <p class="benefit-desc lang-es">Los clientes de IA presionan fuerte — ofertas bajas, objeciones, dilaciones. Practica sin arriesgar un negocio real. Construye confianza a través de la repetición.</p>
+    </div>
+
+    <!-- Benefit 2 -->
+    <div class="benefit-card">
+      <div class="benefit-icon">📊</div>
+      <div class="benefit-title lang-en">Instant Scoring & Feedback</div>
+      <div class="benefit-title lang-es">Puntuación y Retroalimentación Inmediata</div>
+      <p class="benefit-desc lang-en">Every session scored 0–100 across empathy, clarity, and closing. See exactly where you're strong and where you're leaving money on the table.</p>
+      <p class="benefit-desc lang-es">Cada sesión se puntúa del 0 al 100 en empatía, claridad y cierre. Ve exactamente dónde eres fuerte y dónde estás dejando dinero sobre la mesa.</p>
+    </div>
+
+    <!-- Benefit 3 -->
+    <div class="benefit-card">
+      <div class="benefit-icon">🗣️</div>
+      <div class="benefit-title lang-en">Voice-First. Just Like the Real Thing.</div>
+      <div class="benefit-title lang-es">Primero la Voz. Igual que en la Realidad.</div>
+      <p class="benefit-desc lang-en">Speak naturally. AI clients respond with realistic voices in English and Spanish. Train the way you actually negotiate — out loud, under pressure.</p>
+      <p class="benefit-desc lang-es">Habla naturalmente. Los clientes de IA responden con voces realistas en inglés y español. Entrena como realmente negocias — en voz alta, bajo presión.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="pricing-header">
+    <div class="section-label lang-en">Pricing</div>
+    <div class="section-label lang-es">Precios</div>
+    <h2 class="section-title lang-en">Start free. Go PRO when<br>you're ready.</h2>
+    <h2 class="section-title lang-es">Comienza gratis. Pasa a PRO<br>cuando estés listo.</h2>
+  </div>
+
+  <div class="pricing-grid">
+    <!-- Free -->
+    <div class="pricing-card">
+      <div class="pricing-tier">Free</div>
+      <div class="pricing-price">$0</div>
+      <div class="pricing-desc lang-en">No credit card. No expiration.</div>
+      <div class="pricing-desc lang-es">Sin tarjeta. Sin vencimiento.</div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> <span class="lang-en">1 negotiation scenario</span><span class="lang-es">1 escenario de negociación</span></li>
+        <li><span class="check">✓</span> <span class="lang-en">AI voice client (Carlos Méndez)</span><span class="lang-es">Cliente con voz de IA (Carlos Méndez)</span></li>
+        <li><span class="check">✓</span> <span class="lang-en">Scorecard after each session</span><span class="lang-es">Puntaje después de cada sesión</span></li>
+        <li><span class="check">✓</span> <span class="lang-en">English & Spanish</span><span class="lang-es">Inglés y Español</span></li>
+        <li class="dim"><span class="cross">✗</span> <span class="lang-en">All 6 scenarios</span><span class="lang-es">Los 6 escenarios</span></li>
+        <li class="dim"><span class="cross">✗</span> <span class="lang-en">Progress tracking</span><span class="lang-es">Seguimiento de progreso</span></li>
+        <li class="dim"><span class="cross">✗</span> <span class="lang-en">Custom scenario builder</span><span class="lang-es">Constructor de escenarios</span></li>
+      </ul>
+      <a href="https://dealedgeapp.com" class="btn-pricing-free lang-en">Start Free →</a>
+      <a href="https://dealedgeapp.com" class="btn-pricing-free lang-es">Comenzar Gratis →</a>
+    </div>
+
+    <!-- PRO -->
+    <div class="pricing-card featured">
+      <div class="pricing-badge lang-en">Most Popular</div>
+      <div class="pricing-badge lang-es">Más Popular</div>
+      <div class="pricing-tier" style="color: var(--teal);">PRO</div>
+      <div class="pricing-price">$29<span lang-en> /mo</span><span class="lang-es"> /mes</span></div>
+      <div class="pricing-desc lang-en">Or $290/yr — 2 months free.</div>
+      <div class="pricing-desc lang-es">O $290/año — 2 meses gratis.</div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> <span class="lang-en">All 6 negotiation scenarios</span><span class="lang-es">Los 6 escenarios de negociación</span></li>
+        <li><span class="check">✓</span> <span class="lang-en">All AI voice clients</span><span class="lang-es">Todos los clientes de voz IA</span></li>
+        <li><span class="check">✓</span> <span class="lang-en">3 difficulty levels per scenario</span><span class="lang-es">3 niveles de dificultad por escenario</span></li>
+        <li><span class="check">✓</span> <span class="lang-en">Full progress dashboard</span><span class="lang-es">Panel de progreso completo</span></li>
+        <li><span class="check">✓</span> <span class="lang-en">Custom scenario builder</span><span class="lang-es">Constructor de escenarios personalizados</span></li>
+        <li><span class="check">✓</span> <span class="lang-en">Unlimited sessions</span><span class="lang-es">Sesiones ilimitadas</span></li>
+        <li><span class="check">✓</span> <span class="lang-en">Priority updates & new scenarios</span><span class="lang-es">Actualizaciones y nuevos escenarios</span></li>
+      </ul>
+      <a href="https://buy.stripe.com/bJefZi7O5fv2dgtdax2Ji01" class="btn-pricing-pro lang-en">Get PRO →</a>
+      <a href="https://buy.stripe.com/bJefZi7O5fv2dgtdax2Ji01" class="btn-pricing-pro lang-es">Obtener PRO →</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SOCIAL PROOF -->
+<section class="social" id="testimonials">
+  <div class="social-header">
+    <div class="section-label lang-en">What Agents Are Saying</div>
+    <div class="section-label lang-es">Lo que Dicen los Agentes</div>
+    <h2 class="section-title lang-en">Real results from real agents.</h2>
+    <h2 class="section-title lang-es">Resultados reales de agentes reales.</h2>
+    <p class="section-sub lang-en" style="margin: 0 auto;">Testimonials coming soon. Be among the first agents to train with DealEdge.</p>
+    <p class="section-sub lang-es" style="margin: 0 auto;">Testimonios próximamente. Sé uno de los primeros agentes en entrenar con DealEdge.</p>
+  </div>
+
+  <div class="testimonial-grid">
+    <div class="testimonial-card placeholder">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text lang-en">"This changed how I handle lowball offers completely. My confidence on listing appointments is through the roof."</p>
+      <p class="testimonial-text lang-es">"Esto cambió completamente cómo manejo las ofertas bajas. Mi confianza en las citas de listado es increíble."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">JR</div>
+        <div class="author-info">
+          <div class="name lang-en">Real Estate Agent</div>
+          <div class="name lang-es">Agente de Bienes Raíces</div>
+          <div class="role lang-en">Coming soon</div>
+          <div class="role lang-es">Próximamente</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card placeholder">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text lang-en">"The AI client actually pushed back the way real clients do. Practicing that pressure made my real negotiations so much smoother."</p>
+      <p class="testimonial-text lang-es">"El cliente de IA realmente presionó como lo hacen los clientes reales. Practicar esa presión hizo mis negociaciones reales mucho más fluidas."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">ML</div>
+        <div class="author-info">
+          <div class="name lang-en">KW Agent</div>
+          <div class="name lang-es">Agente KW</div>
+          <div class="role lang-en">Coming soon</div>
+          <div class="role lang-es">Próximamente</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card placeholder">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text lang-en">"I used to dread difficult buyer conversations. After two weeks with DealEdge, I actually look forward to them."</p>
+      <p class="testimonial-text lang-es">"Antes me aterraban las conversaciones difíciles con compradores. Después de dos semanas con DealEdge, las espero con ansias."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">AP</div>
+        <div class="author-info">
+          <div class="name lang-en">Real Estate Agent</div>
+          <div class="name lang-es">Agente de Bienes Raíces</div>
+          <div class="role lang-en">Coming soon</div>
+          <div class="role lang-es">Próximamente</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <h2 class="lang-en">Ready to negotiate<br>like a <em style="background: linear-gradient(135deg,var(--teal),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-style:normal;">closer?</em></h2>
+    <h2 class="lang-es">¿Listo para negociar<br>como un <em style="background: linear-gradient(135deg,var(--teal),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-style:normal;">profesional?</em></h2>
+    <p class="lang-en">Start free. No credit card. No commitment. Just better negotiations.</p>
+    <p class="lang-es">Comienza gratis. Sin tarjeta. Sin compromiso. Solo mejores negociaciones.</p>
+    <a href="https://dealedgeapp.com" class="btn-primary lang-en" style="font-size:1.1rem; padding:18px 40px;">Start Training Free →</a>
+    <a href="https://dealedgeapp.com" class="btn-primary lang-es" style="font-size:1.1rem; padding:18px 40px;">Comenzar a Entrenar Gratis →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">DealEdge © 2026</div>
+  <ul class="footer-links">
+    <li><a href="https://dealedgeapp.com" class="lang-en">Launch App</a><a href="https://dealedgeapp.com" class="lang-es">Abrir App</a></li>
+    <li><a href="#pricing" class="lang-en">Pricing</a><a href="#pricing" class="lang-es">Precios</a></li>
+  </ul>
+  <div class="footer-copy lang-en">Built for real estate professionals.</div>
+  <div class="footer-copy lang-es">Creado para profesionales de bienes raíces.</div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = lang === 'es' ? 'es' : '';
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+    });
+    document.documentElement.lang = lang;
+  }
+
+  // Detect browser language
+  if (navigator.language.startsWith('es')) setLang('es');
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animation = 'fadeUp 0.6s ease both';
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.benefit-card, .pricing-card, .testimonial-card, .stat').forEach(el => {
+    el.style.opacity = '0';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
