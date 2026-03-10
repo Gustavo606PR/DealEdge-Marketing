@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refund Policy — DealEdge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #00c8d4;
+    --green: #00e090;
+    --bg: #030e0c;
+    --card: rgba(4,26,20,0.95);
+    --text: #e8f8f4;
+    --muted: #7ab8ac;
+    --border: rgba(0,200,212,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    background: rgba(3,14,12,0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-logo em { color: var(--teal); font-style: normal; }
+
+  .nav-back {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--text); }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 24px 100px;
+  }
+
+  .doc-header {
+    margin-bottom: 56px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .doc-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+
+  .doc-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 2.4rem;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .doc-meta {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .toc {
+    background: rgba(0,200,212,0.05);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 48px;
+  }
+
+  .toc-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--teal);
+    margin-bottom: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .toc ol {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .toc a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--teal); }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--text);
+    margin: 44px 0 14px;
+    padding-top: 8px;
+  }
+
+  h2::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--teal), var(--green));
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: rgba(232,248,244,0.8);
+    margin-bottom: 16px;
+    font-weight: 300;
+  }
+
+  ul, ol {
+    padding-left: 20px;
+    margin-bottom: 16px;
+    color: rgba(232,248,244,0.8);
+    font-weight: 300;
+  }
+
+  li { margin-bottom: 8px; }
+
+  strong { color: var(--text); font-weight: 500; }
+
+  a { color: var(--teal); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .highlight-box {
+    background: rgba(0,200,212,0.06);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+
+  .guarantee-card {
+    background: rgba(0,224,144,0.06);
+    border: 1px solid rgba(0,224,144,0.2);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 32px 0;
+    text-align: center;
+  }
+
+  .guarantee-badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 3rem;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .guarantee-label {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .guarantee-desc {
+    color: var(--muted);
+    font-size: 0.92rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .step-list {
+    list-style: none;
+    padding-left: 0;
+    counter-reset: steps;
+  }
+
+  .step-list li {
+    counter-increment: steps;
+    padding-left: 44px;
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .step-list li::before {
+    content: counter(steps);
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 28px;
+    height: 28px;
+    background: rgba(0,200,212,0.12);
+    border: 1px solid rgba(0,200,212,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--teal);
+    line-height: 28px;
+    text-align: center;
+  }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 32px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-decoration: none;
+  }
+  .footer-links a:hover { color: var(--text); }
+
+  .footer-copy { color: rgba(122,184,172,0.4); font-size: 0.82rem; }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .doc-title { font-size: 1.8rem; }
+    .guarantee-badge { font-size: 2.2rem; }
+    footer { padding: 24px 20px; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 52 52" fill="none">
+      <defs>
+        <linearGradient id="lhf_r" x1="26" y1="6" x2="26" y2="48" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="rgba(0,212,176,0.22)"/>
+          <stop offset="100%" stop-color="rgba(0,200,160,0.03)"/>
+        </linearGradient>
+      </defs>
+      <path d="M5 30 L26 8 L47 30 L42 30 L42 46 L10 46 Z" fill="url(#lhf_r)" stroke="#00d4b0" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="20" y="33" width="12" height="13" rx="2" fill="rgba(0,212,176,0.08)" stroke="#00c8d4" stroke-width="2"/>
+      <path d="M38 17 L46 9 M46 9 L46 18 M46 9 L37 9" stroke="#00e090" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Deal<em>Edge</em>
+  </a>
+  <a href="/" class="nav-back">← Back to Home</a>
+</nav>
+
+<div class="container">
+
+  <div class="doc-header">
+    <div class="doc-label">Legal</div>
+    <h1 class="doc-title">Refund Policy</h1>
+    <div class="doc-meta">Effective date: March 10, 2026 &nbsp;·&nbsp; Last updated: March 10, 2026</div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ol>
+      <li><a href="#guarantee">7-Day Money-Back Guarantee</a></li>
+      <li><a href="#eligibility">Eligibility</a></li>
+      <li><a href="#how-to-request">How to Request a Refund</a></li>
+      <li><a href="#processing">Processing & Timeline</a></li>
+      <li><a href="#non-refundable">Non-Refundable Items</a></li>
+      <li><a href="#cancellation">Cancellation</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ol>
+  </div>
+
+  <div class="highlight-box">
+    We stand behind DealEdge. If it's not the right fit, we'll make it right — no questions asked within your first 7 days.
+  </div>
+
+  <div class="guarantee-card">
+    <div class="guarantee-badge">7</div>
+    <div class="guarantee-label">Day Money-Back Guarantee</div>
+    <div class="guarantee-desc">New PRO subscribers can request a full refund within 7 days of their initial purchase. No hoops, no hassle.</div>
+  </div>
+
+  <h2 id="guarantee">1. 7-Day Money-Back Guarantee</h2>
+  <p>If you subscribe to DealEdge PRO and are not satisfied for any reason, you may request a full refund within <strong>7 calendar days</strong> of your initial subscription purchase date.</p>
+  <p>This guarantee applies to your first subscription payment only. It is available once per account and is not renewable on subsequent billing cycles or plan changes.</p>
+
+  <h2 id="eligibility">2. Eligibility</h2>
+  <p>To be eligible for a refund under our 7-day guarantee, the following conditions must be met:</p>
+  <ul>
+    <li>Your refund request must be submitted within 7 calendar days of your initial PRO subscription purchase</li>
+    <li>The request must come from the email address associated with your DealEdge account</li>
+    <li>Your account must not have been suspended or terminated for violation of our Terms of Service</li>
+    <li>This is your first refund request — the guarantee applies once per customer</li>
+  </ul>
+  <p>Refunds requested after the 7-day window are not eligible under this policy. We evaluate late requests on a case-by-case basis at our sole discretion.</p>
+
+  <h2 id="how-to-request">3. How to Request a Refund</h2>
+  <p>Requesting a refund is simple:</p>
+  <ol class="step-list">
+    <li>Email <a href="mailto:support@dealedgeapp.com">support@dealedgeapp.com</a> from the email address on your DealEdge account</li>
+    <li>Use the subject line: <strong>"Refund Request — [your email]"</strong></li>
+    <li>Include a brief reason for your request (optional, but appreciated)</li>
+    <li>We will confirm receipt within 1 business day and process your refund</li>
+  </ol>
+  <p>You do not need to provide extensive documentation or justification. If you're within the 7-day window, we will process your refund.</p>
+
+  <h2 id="processing">4. Processing & Timeline</h2>
+  <p>Once your refund is approved:</p>
+  <ul>
+    <li><strong>Confirmation:</strong> You will receive an email confirmation within 1 business day of your request</li>
+    <li><strong>Refund issuance:</strong> Refunds are issued to the original payment method via Stripe within 1–3 business days of approval</li>
+    <li><strong>Bank processing:</strong> Depending on your card issuer, the credit may take an additional 5–10 business days to appear on your statement</li>
+  </ul>
+  <p>Upon processing a refund, your PRO access will be downgraded to the Free plan immediately. Your account and session history will be preserved.</p>
+
+  <h2 id="non-refundable">5. Non-Refundable Items</h2>
+  <p>The following are not eligible for refunds:</p>
+  <ul>
+    <li><strong>Free plan usage</strong> — No payment is required; no refund applies</li>
+    <li><strong>Trial codes</strong> — Trial access is provided at no cost; no refund applies</li>
+    <li><strong>Renewal charges</strong> — Subscription renewals after the initial 7-day period are non-refundable. Cancel before your renewal date to avoid future charges</li>
+    <li><strong>Partial billing periods</strong> — We do not issue pro-rated refunds for unused days in a billing cycle</li>
+    <li><strong>Accounts terminated for cause</strong> — Accounts suspended or terminated due to Terms of Service violations are not eligible for refunds</li>
+  </ul>
+
+  <h2 id="cancellation">6. Cancellation</h2>
+  <p>You may cancel your DealEdge PRO subscription at any time by contacting us at <a href="mailto:support@dealedgeapp.com">support@dealedgeapp.com</a>.</p>
+  <p>Upon cancellation:</p>
+  <ul>
+    <li>Your subscription will not renew at the end of the current billing period</li>
+    <li>You will retain full PRO access through the end of your paid period</li>
+    <li>Your account will automatically downgrade to the Free plan at the end of the billing cycle</li>
+    <li>Your session history and progress data will be preserved</li>
+  </ul>
+  <p>Cancellation does not automatically trigger a refund unless you are within the 7-day guarantee window and submit a refund request.</p>
+
+  <h2 id="contact">7. Contact</h2>
+  <p>For refund requests or billing questions, contact us:</p>
+  <ul>
+    <li><strong>Email:</strong> <a href="mailto:support@dealedgeapp.com">support@dealedgeapp.com</a></li>
+    <li><strong>Response time:</strong> Within 1 business day</li>
+    <li><strong>Website:</strong> <a href="https://dealedgeapp.com">dealedgeapp.com</a></li>
+  </ul>
+
+</div>
+
+<footer>
+  <a href="/" style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;color:var(--muted);text-decoration:none;">DealEdge © 2026</a>
+  <ul class="footer-links">
+    <li><a href="/terms.html">Terms</a></li>
+    <li><a href="/privacy.html">Privacy</a></li>
+    <li><a href="/refund.html">Refunds</a></li>
+    <li><a href="https://app.dealedgeapp.com">Launch App</a></li>
+  </ul>
+  <div class="footer-copy">Built for real estate professionals.</div>
+</footer>
+
+</body>
+</html>
