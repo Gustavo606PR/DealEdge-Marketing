@@ -965,7 +965,7 @@
   <div class="carousel-wrapper" id="carousel">
     <div class="carousel-track" id="carouselTrack">
       <div class="carousel-slide">
-        <img src="Snips%20Images/Mid%20Session.png" alt="DealEdge AI negotiation chat with real-time coaching">
+        <img src="Snips Images/Mid Session.png" alt="DealEdge AI negotiation chat with real-time coaching">
         <div class="carousel-caption">
           <div class="caption-icon">💬</div>
           <div class="caption-text-wrap">
@@ -977,7 +977,7 @@
         </div>
       </div>
       <div class="carousel-slide">
-        <img src="Snips%20Images/Chat%20de%20Dueno.png" alt="DealEdge property owner consultation panel">
+        <img src="Snips Images/Chat de Dueno.png" alt="DealEdge property owner consultation panel">
         <div class="carousel-caption">
           <div class="caption-icon">🏠</div>
           <div class="caption-text-wrap">
@@ -989,7 +989,7 @@
         </div>
       </div>
       <div class="carousel-slide">
-        <img src="Snips%20Images/CMA.png" alt="DealEdge market analysis with comparable sales">
+        <img src="Snips Images/CMA.png" alt="DealEdge market analysis with comparable sales">
         <div class="carousel-caption">
           <div class="caption-icon">📊</div>
           <div class="caption-text-wrap">
@@ -1001,7 +1001,7 @@
         </div>
       </div>
       <div class="carousel-slide">
-        <img src="Snips%20Images/Grading.png" alt="DealEdge progress tracking dashboard">
+        <img src="Snips Images/Grading.png" alt="DealEdge progress tracking dashboard">
         <div class="carousel-caption">
           <div class="caption-icon">📈</div>
           <div class="caption-text-wrap">
@@ -1013,7 +1013,7 @@
         </div>
       </div>
       <div class="carousel-slide">
-        <img src="Snips%20Images/Home.png" alt="DealEdge 6 negotiation scenario types">
+        <img src="Snips Images/Home.png" alt="DealEdge 6 negotiation scenario types">
         <div class="carousel-caption">
           <div class="caption-icon">🎯</div>
           <div class="caption-text-wrap">
@@ -1074,7 +1074,6 @@
   </div>
 
   <div class="benefits-grid">
-    <!-- Benefit 1 -->
     <div class="benefit-card">
       <div class="benefit-icon">🎯</div>
       <div class="benefit-title lang-en">Real Pressure. Safe Environment.</div>
@@ -1083,7 +1082,6 @@
       <p class="benefit-desc lang-es">Los clientes de IA presionan fuerte — ofertas bajas, objeciones, dilaciones. Practica sin arriesgar un negocio real. Construye confianza a través de la repetición.</p>
     </div>
 
-    <!-- Benefit 2 -->
     <div class="benefit-card">
       <div class="benefit-icon">📊</div>
       <div class="benefit-title lang-en">Instant Scoring & Feedback</div>
@@ -1092,7 +1090,6 @@
       <p class="benefit-desc lang-es">Cada sesión se puntúa del 0 al 100 en empatía, claridad y cierre. Ve exactamente dónde eres fuerte y dónde estás dejando dinero sobre la mesa.</p>
     </div>
 
-    <!-- Benefit 3 -->
     <div class="benefit-card">
       <div class="benefit-icon">🗣️</div>
       <div class="benefit-title lang-en">Voice-First. Just Like the Real Thing.</div>
@@ -1115,7 +1112,6 @@
   </div>
 
   <div class="pricing-grid">
-    <!-- Free -->
     <div class="pricing-card">
       <div class="pricing-tier">Free</div>
       <div class="pricing-price">$0</div>
@@ -1134,7 +1130,6 @@
       <a href="https://app.dealedgeapp.com" class="btn-pricing-free lang-es">Comenzar Gratis →</a>
     </div>
 
-    <!-- PRO -->
     <div class="pricing-card featured">
       <div class="pricing-badge lang-en">Most Popular</div>
       <div class="pricing-badge lang-es">Más Popular</div>
@@ -1273,12 +1268,12 @@
   });
 
   // ── CAROUSEL ──
-  const track = document.getElementById('carouselTrack');
-  const dots = document.querySelectorAll('.carousel-dot');
-  const progressBar = document.getElementById('carouselProgress');
-  const totalSlides = 5;
-  let currentSlide = 0, autoplayTimer = null, progressTimer = null;
-  const AUTOPLAY_MS = 5000;
+  var track = document.getElementById('carouselTrack');
+  var dots = document.querySelectorAll('.carousel-dot');
+  var progressBar = document.getElementById('carouselProgress');
+  var totalSlides = 5;
+  var currentSlide = 0, autoplayTimer = null, progressTimer = null;
+  var AUTOPLAY_MS = 5000;
 
   function carouselGoTo(i) {
     currentSlide = ((i % totalSlides) + totalSlides) % totalSlides;
