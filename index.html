@@ -275,68 +275,128 @@
     background: rgba(0,200,212,0.05);
   }
 
-  /* ── VIDEO ── */
-  .video-section {
+  /* ── CAROUSEL ── */
+  .carousel-section {
     position: relative;
     z-index: 1;
     padding: 0 24px 100px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     animation: fadeUp 0.6s 0.4s ease both;
   }
-
-  .video-wrapper {
+  .carousel-wrapper {
     position: relative;
     width: 100%;
-    max-width: 860px;
+    max-width: 920px;
     border-radius: 20px;
     overflow: hidden;
     border: 1px solid var(--border);
     box-shadow: var(--glow), 0 40px 80px rgba(0,0,0,0.5);
     background: var(--card);
-    aspect-ratio: 16/9;
   }
-
-  .video-placeholder {
-    width: 100%;
-    height: 100%;
+  .carousel-track {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, rgba(0,200,212,0.08) 0%, rgba(0,224,144,0.05) 100%);
-    gap: 20px;
-    position: absolute;
-    inset: 0;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
   }
-
-  .play-btn {
-    width: 72px; height: 72px;
-    background: linear-gradient(135deg, var(--teal), var(--green));
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 0 0 16px rgba(0,200,212,0.1), 0 0 0 32px rgba(0,200,212,0.05);
-    transition: transform 0.2s;
+  .carousel-slide {
+    min-width: 100%;
+    position: relative;
+    overflow: hidden;
   }
-  .play-btn:hover { transform: scale(1.08); }
-  .play-btn svg { margin-left: 4px; }
-
-  .video-label {
-    font-family: 'Syne', sans-serif;
-    font-weight: 600;
-    color: var(--muted);
-    font-size: 0.9rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+  .carousel-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
-
-  .video-bar {
+  .carousel-caption {
     position: absolute;
     bottom: 0; left: 0; right: 0;
+    padding: 48px 28px 20px;
+    background: linear-gradient(to top, rgba(3,14,12,0.95) 0%, rgba(3,14,12,0.7) 50%, transparent 100%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .caption-icon {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, rgba(0,200,212,0.2), rgba(0,224,144,0.15));
+    border: 1px solid rgba(0,200,212,0.3);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .caption-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .caption-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--text);
+  }
+  .caption-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,200,212,0.3);
+    background: rgba(3,14,12,0.8);
+    backdrop-filter: blur(10px);
+    color: var(--teal);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.25s;
+    z-index: 3;
+    opacity: 0;
+  }
+  .carousel-wrapper:hover .carousel-btn { opacity: 1; }
+  .carousel-btn:hover {
+    background: rgba(0,200,212,0.15);
+    border-color: var(--teal);
+    transform: translateY(-50%) scale(1.1);
+  }
+  .carousel-btn.prev { left: 16px; }
+  .carousel-btn.next { right: 16px; }
+  .carousel-dots {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 24px;
+  }
+  .carousel-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0,200,212,0.2);
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 0;
+  }
+  .carousel-dot.active {
+    background: var(--teal);
+    box-shadow: 0 0 12px rgba(0,200,212,0.5);
+    transform: scale(1.25);
+  }
+  .carousel-dot:hover:not(.active) { background: rgba(0,200,212,0.45); }
+  .carousel-progress {
+    position: absolute;
+    bottom: 0; left: 0;
     height: 3px;
     background: linear-gradient(90deg, var(--teal), var(--green));
-    opacity: 0.5;
+    z-index: 3;
   }
 
   /* ── SECTION COMMON ── */
@@ -823,6 +883,13 @@
 
     .stat-bar { gap: 36px; }
 
+    .carousel-btn { width: 38px; height: 38px; font-size: 16px; opacity: 1; }
+    .carousel-btn.prev { left: 8px; }
+    .carousel-btn.next { right: 8px; }
+    .carousel-caption { padding: 36px 16px 14px; }
+    .caption-title { font-size: 0.82rem; }
+    .caption-sub { font-size: 0.72rem; }
+
     footer {
       flex-direction: column;
       gap: 20px;
@@ -893,17 +960,81 @@
   </div>
 </section>
 
-<!-- VIDEO -->
-<div class="video-section">
-  <div class="video-wrapper">
-    <div class="video-placeholder">
-      <div class="play-btn" onclick="alert('Demo video coming soon!')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+<!-- SCREENSHOT CAROUSEL -->
+<div class="carousel-section">
+  <div class="carousel-wrapper" id="carousel">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-slide">
+        <img src="Snips%20Images/Mid%20Session.png" alt="DealEdge AI negotiation chat with real-time coaching">
+        <div class="carousel-caption">
+          <div class="caption-icon">💬</div>
+          <div class="caption-text-wrap">
+            <div class="caption-title lang-en">Live AI Negotiation with Real-Time Coaching</div>
+            <div class="caption-title lang-es">Negociación en Vivo con Coaching en Tiempo Real</div>
+            <div class="caption-sub lang-en">Practice against AI clients who push back — get instant feedback on your approach</div>
+            <div class="caption-sub lang-es">Practica contra clientes IA que resisten — recibe retroalimentación instantánea</div>
+          </div>
+        </div>
       </div>
-      <div class="video-label lang-en">Watch 30-Second Demo</div>
-      <div class="video-label lang-es">Ver Demo de 30 Segundos</div>
+      <div class="carousel-slide">
+        <img src="Snips%20Images/Chat%20de%20Dueno.png" alt="DealEdge property owner consultation panel">
+        <div class="carousel-caption">
+          <div class="caption-icon">🏠</div>
+          <div class="caption-text-wrap">
+            <div class="caption-title lang-en">Consult the Property Owner Mid-Negotiation</div>
+            <div class="caption-title lang-es">Consulta al Propietario Durante la Negociación</div>
+            <div class="caption-sub lang-en">Get real-time intel on flexibility, terms, and limits from the owner</div>
+            <div class="caption-sub lang-es">Obtén información en tiempo real sobre flexibilidad y límites del dueño</div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="Snips%20Images/CMA.png" alt="DealEdge market analysis with comparable sales">
+        <div class="carousel-caption">
+          <div class="caption-icon">📊</div>
+          <div class="caption-text-wrap">
+            <div class="caption-title lang-en">Market Comps at Your Fingertips</div>
+            <div class="caption-title lang-es">Comparables de Mercado al Alcance</div>
+            <div class="caption-sub lang-en">Real comparable sales data to strengthen your negotiation arguments</div>
+            <div class="caption-sub lang-es">Datos reales de ventas comparables para fortalecer tus argumentos</div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="Snips%20Images/Grading.png" alt="DealEdge progress tracking dashboard">
+        <div class="carousel-caption">
+          <div class="caption-icon">📈</div>
+          <div class="caption-text-wrap">
+            <div class="caption-title lang-en">Track Your Skills & Progress</div>
+            <div class="caption-title lang-es">Monitorea Tus Habilidades y Progreso</div>
+            <div class="caption-sub lang-en">Scores across objection handling, closing technique, and emotional intelligence</div>
+            <div class="caption-sub lang-es">Puntuaciones en manejo de objeciones, técnica de cierre e inteligencia emocional</div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="Snips%20Images/Home.png" alt="DealEdge 6 negotiation scenario types">
+        <div class="carousel-caption">
+          <div class="caption-icon">🎯</div>
+          <div class="caption-text-wrap">
+            <div class="caption-title lang-en">6 Real-World Negotiation Scenarios</div>
+            <div class="caption-title lang-es">6 Escenarios de Negociación del Mundo Real</div>
+            <div class="caption-sub lang-en">From lowball buyers to competitive listings — train for every situation</div>
+            <div class="caption-sub lang-es">Desde compradores agresivos hasta listados competitivos — entrena para todo</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="video-bar"></div>
+    <button class="carousel-btn prev" onclick="carouselPrev()" aria-label="Previous">&#8249;</button>
+    <button class="carousel-btn next" onclick="carouselNext()" aria-label="Next">&#8250;</button>
+    <div class="carousel-progress" id="carouselProgress"></div>
+  </div>
+  <div class="carousel-dots" id="carouselDots">
+    <button class="carousel-dot active" onclick="carouselGoTo(0)"></button>
+    <button class="carousel-dot" onclick="carouselGoTo(1)"></button>
+    <button class="carousel-dot" onclick="carouselGoTo(2)"></button>
+    <button class="carousel-dot" onclick="carouselGoTo(3)"></button>
+    <button class="carousel-dot" onclick="carouselGoTo(4)"></button>
   </div>
 </div>
 
@@ -1140,6 +1271,67 @@
     el.style.opacity = '0';
     observer.observe(el);
   });
+
+  // ── CAROUSEL ──
+  const track = document.getElementById('carouselTrack');
+  const dots = document.querySelectorAll('.carousel-dot');
+  const progressBar = document.getElementById('carouselProgress');
+  const totalSlides = 5;
+  let currentSlide = 0, autoplayTimer = null, progressTimer = null;
+  const AUTOPLAY_MS = 5000;
+
+  function carouselGoTo(i) {
+    currentSlide = ((i % totalSlides) + totalSlides) % totalSlides;
+    track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+    dots.forEach(function(d, j) { d.classList.toggle('active', j === currentSlide); });
+    resetAutoplay();
+  }
+  function carouselNext() { carouselGoTo(currentSlide + 1); }
+  function carouselPrev() { carouselGoTo(currentSlide - 1); }
+
+  function startProgress() {
+    var start = null;
+    progressBar.style.width = '0%';
+    function step(ts) {
+      if (!start) start = ts;
+      var pct = Math.min(((ts - start) / AUTOPLAY_MS) * 100, 100);
+      progressBar.style.width = pct + '%';
+      if (ts - start < AUTOPLAY_MS) progressTimer = requestAnimationFrame(step);
+    }
+    progressTimer = requestAnimationFrame(step);
+  }
+
+  function resetAutoplay() {
+    clearTimeout(autoplayTimer);
+    cancelAnimationFrame(progressTimer);
+    startProgress();
+    autoplayTimer = setTimeout(carouselNext, AUTOPLAY_MS);
+  }
+
+  document.getElementById('carousel').addEventListener('mouseenter', function() {
+    clearTimeout(autoplayTimer);
+    cancelAnimationFrame(progressTimer);
+    progressBar.style.width = '0%';
+  });
+  document.getElementById('carousel').addEventListener('mouseleave', resetAutoplay);
+
+  // Touch / swipe
+  var touchX = 0;
+  document.getElementById('carousel').addEventListener('touchstart', function(e) {
+    touchX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  document.getElementById('carousel').addEventListener('touchend', function(e) {
+    var diff = touchX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 50) { diff > 0 ? carouselNext() : carouselPrev(); }
+  }, { passive: true });
+
+  // Keyboard
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') carouselPrev();
+    if (e.key === 'ArrowRight') carouselNext();
+  });
+
+  resetAutoplay();
 </script>
 </body>
 </html>
